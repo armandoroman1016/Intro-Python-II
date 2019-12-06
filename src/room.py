@@ -21,4 +21,7 @@ class Room:
     def print_items(self):
         for item in self.items:
             print(f"Found Item: {item.name}, {item.description}")
-        
+    def find_item(self, name):
+        for item in self.items:
+            if item.name.lower() == item.name.lower():
+                return item 

@@ -4,11 +4,11 @@ from item import Item
 # Declare Items
 
 sword = Item('Sword', 'A valiant knights sword')
-oil = Item('Oil Can', 'Useful for various things')
+oil = Item('Oil', 'Useful for various things')
 log = Item('Log', 'Useful for cooking and warmth')
 slingshot = Item('Slingshot', 'Can be used to shoot targets from a distance')
-mirror = Item('Old Mirror', 'You Can Peek around corners where you dont want to be seen')
-pick = Item('Lock Pick', 'Is there treasure!?')
+mirror = Item('Mirror', 'You Can Peek around corners where you dont want to be seen')
+pick = Item('Pick', 'This lock pick could be useful if there is there treasure!?')
 
 # Declare all the rooms
 
@@ -21,10 +21,10 @@ passages run north and east.""", [mirror]),
 
     'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm.""", [oil_can, slingshot]),
+the distance, but there is no way across the chasm.""", [oil, slingshot]),
 
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
-to north. The smell of gold permeates the air.""", [lock_pick]),
+to north. The smell of gold permeates the air.""", [pick]),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
@@ -85,16 +85,18 @@ while True:
     verb = nextMove[0]
     if verb in verbs and len(nextMove) > 1:
         item = nextMove[1]
-        if verb == 'get' or verb == 'take' \
-        and item in player.current_room.items:
-            player.add_to_inventory(item)
-            player.current_room.remove_item(item)
+        if verb == 'get' or verb == 'take':
+        # and item.lower() in player.current_room.items:
+            selected_item = player.current_room.find_item(item)
+            selected_item.on_take()
+            player.add_to_inventory(selected_item)
+            player.current_room.remove_item(selected_item)
         else:
             print("Sorry that item isn't in this room")
     elif verb.lower() == 'drop':
-        if item not in player.inventory:
+        if item.lower() not in player.inventory:
             print(f'{item} is not in your inventory')
-        elif item in player.inventory:
+        elif item.lower() in player.inventory:
             player.remove_from_inventory(item) 
             player.current_room.add_to_inventory(item)
             item.on_drop()

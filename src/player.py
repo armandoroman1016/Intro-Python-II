@@ -7,9 +7,9 @@ class Player:
         self.inventory = inventory
 
         # add to inventory
-    def add_to_inventory(item):
-            self.items.append(item)
+    def add_to_inventory(self, item):
+            self.inventory.append(item)
         
-    def remove_from_inventory(item):
-            self.items.remove(item)
+    def remove_from_inventory(self, item):
+            self.inventory.remove(item)
         
